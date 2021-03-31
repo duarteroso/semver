@@ -7,46 +7,19 @@ pub enum Stage {
 	release
 }
 
+pub enum VersionTime {
+	newer
+	equal
+	older
+}
+
 pub struct SemVer {
 pub mut:
 	major int
 	minor int
 	patch int
-	stage Stage
+	stage Stage = .release
 	build string
-}
-
-// Initialise
-fn init() {
-}
-
-// Constructor
-pub fn create_semver(major int, minor int, patch int) SemVer {
-	return SemVer{
-		major: major
-		minor: minor
-		patch: patch
-	}
-}
-
-// Set release
-pub fn (mut sv SemVer) set_release(rel Stage) {
-	sv.stage = rel
-}
-
-// Get release
-pub fn (sv &SemVer) get_release() Stage {
-	return sv.stage
-}
-
-// Set build
-pub fn (mut sv SemVer) set_build(build string) {
-	sv.build = build
-}
-
-// Get build
-pub fn (sv &SemVer) get_build() string {
-	return sv.build
 }
 
 // Get string
@@ -94,10 +67,41 @@ pub fn (sv &SemVer) is_greater(other SemVer) bool {
 		minor: sv.minor - other.minor
 		patch: sv.patch - other.patch
 	}
-	return (res.major > 0) || (res.major == 0 && res.minor > 0) || (res.major == 0 && res.minor >
-		0 && res.patch > 0)
+	return (res.major > 0) || (res.major == 0 && res.minor > 0)
+		|| (res.major == 0 && res.minor == 0 && res.patch > 0)
+		|| (res.major == 0 && res.minor == 0 && res.patch == 0 && int(sv.stage) > int(other.stage))
 }
 
 pub fn (sv &SemVer) is_equal(other SemVer) bool {
 	return (sv.major == other.major) && (sv.minor == other.minor) && (sv.patch == other.patch)
+		&& (sv.stage == other.stage)
+}
+
+// compare returns the relationship between the two versions
+pub fn (sv &SemVer) compare(other &SemVer) VersionTime {
+	if sv.major < other.major {
+		return VersionTime.older
+	} else if sv.major > other.major {
+		return VersionTime.newer
+	}
+	//
+	if sv.minor < other.minor {
+		return VersionTime.older
+	} else if sv.minor > other.minor {
+		return VersionTime.newer
+	}
+	//
+	if sv.patch < other.patch {
+		return VersionTime.older
+	} else if sv.patch > other.patch {
+		return VersionTime.newer
+	}
+	//
+	if int(sv.stage) < int(other.stage) {
+		return VersionTime.older
+	} else if int(sv.stage) > int(other.stage) {
+		return VersionTime.newer
+	}
+	//
+	return VersionTime.equal
 }
