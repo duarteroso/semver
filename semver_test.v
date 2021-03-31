@@ -81,3 +81,33 @@ fn test_semver_str() {
 	}
 	println(ver.str())
 }
+
+fn test_compare() {
+	a := SemVer{
+		major: 1
+		minor: 0
+		patch: 0
+	}
+	b := SemVer{
+		major: 1
+		minor: 1
+		patch: 0
+	}
+	c := SemVer{
+		major: 1
+		minor: 1
+		patch: 0
+		stage: .beta
+	}
+	d := SemVer{
+		major: 1
+		minor: 1
+		patch: 0
+		stage: .beta
+	}
+	//
+	assert a.compare(b) == .older
+	assert b.compare(a) == .newer
+	assert b.compare(c) == .newer
+	assert c.compare(d) == .equal
+}
