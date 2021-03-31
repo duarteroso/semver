@@ -1,11 +1,7 @@
-#V Project#
-
 Module {
 	name: 'vsemver',
-	version: '0.1.29'
-	author: 'Duarte Roso <duarte.roso@posteo.eu>'
-	vcs: 'git'
-	repo_url: 'bitbucket.org:rosod/semver'
+	version: '1.0.0'
+	author: 'duarteroso'
 	description: 'Semantic version module',
-	license: [Zero Clause BSD]
+	license: 'BSD-2-Clause'
 }
