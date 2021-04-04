@@ -1,4 +1,4 @@
-module vsemver
+module semver
 
 fn test_semver_default() {
 	a := SemVer{}

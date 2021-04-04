@@ -1,4 +1,4 @@
-module vsemver
+module semver
 
 pub enum Stage {
 	alpha

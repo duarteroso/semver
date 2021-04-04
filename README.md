@@ -1,18 +1,18 @@
-## vSemVer
+## SemVer
 
 ### Description
 Semantic version module written for the V language.
 The specification followed can be found [here](https://semver.org/)
 
 ### Install
-`v install duarteroso.vsemver`
+`v install duarteroso.semver`
 
 ### Usage
 ```v
-import duarteroso.vsemver
+import duarteroso.semver
 
 fn main() {
-    v := vsemver.SemVer{
+    v := semver.SemVer{
         major: 0
         minor: 1
         patch: 27
