@@ -22,6 +22,48 @@ pub mut:
 	build string
 }
 
+pub fn from_string(version string) ?SemVer {
+	mut ver := SemVer{}
+	//
+	mut parts := version.split('+')
+	if parts.len == 2 {
+		ver.build = parts[1]
+	}
+	//
+	parts = parts[0].split('-')
+	if parts.len == 2 {
+		stage := parts[1].to_lower()
+		ver.stage = match stage {
+			'alpha' { Stage.alpha }
+			'beta' { Stage.beta }
+			'rc' { Stage.rc }
+			else { Stage.release }
+		}
+	}
+	//
+	parts = parts[0].split('.')
+	if parts.len == 0 || parts.len > 3 {
+		return error('Invalid format. Use major.minor.patch.state.build')
+	}
+	//
+	mut idx := 0
+	if parts.len > idx {
+		ver.major = parts[idx].int()
+	}
+	//
+	idx += 1
+	if parts.len > idx {
+		ver.minor = parts[idx].int()
+	}
+	//
+	idx += 1
+	if parts.len > idx {
+		ver.patch = parts[idx].int()
+	}
+	//
+	return ver
+}
+
 // Get string
 pub fn (sv &SemVer) str() string {
 	mut semver := sv.major.str()

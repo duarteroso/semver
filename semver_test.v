@@ -111,3 +111,20 @@ fn test_compare() {
 	assert b.compare(c) == .newer
 	assert c.compare(d) == .equal
 }
+
+fn test_from_string() {
+	a := from_string('2+cfgr32') or { return }
+	println(a)
+	b := from_string('1.0-rc') or { return }
+	println(b)
+	c := from_string('3.4.1') or { return }
+	println(c)
+	f := from_string('3.4.1+asdf') or { return }
+	println(f)
+	d := from_string('2.1.1-beta') or { return }
+	println(d)
+	e := from_string('1.1.1-alpha+cf435a') or { return }
+	println(e)
+	//
+	assert false
+}
