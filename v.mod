@@ -1,6 +1,6 @@
 Module {
 	name: 'semver',
-	version: '1.1.0'
+	version: '1.2.0'
 	description: 'Semantic version module'
 	dependencies: []
 	license: 'BSD-2-Clause'

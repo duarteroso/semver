@@ -7,14 +7,14 @@ fn test_semver_default() {
 		minor: 0
 		patch: 0
 	}
-	assert a.is_equal(b)
+	assert a == b
 	//
 	c := SemVer{
 		major: 0
 		minor: 1
 		patch: 0
 	}
-	assert !a.is_equal(c)
+	assert a != c
 }
 
 fn test_semver_is_greater() {
@@ -24,7 +24,8 @@ fn test_semver_is_greater() {
 		patch: 0
 	}
 	b := SemVer{}
-	assert a.is_greater(b)
+	assert a > b
+	assert a >= b
 	//
 	c := SemVer{
 		major: 1
@@ -36,7 +37,8 @@ fn test_semver_is_greater() {
 		minor: 0
 		patch: 1
 	}
-	assert !c.is_greater(d)
+	assert c < d
+	assert c <= d
 }
 
 fn test_semver_is_equal() {
@@ -50,10 +52,10 @@ fn test_semver_is_equal() {
 		minor: 2
 		patch: 1
 	}
-	assert a.is_equal(b)
+	assert a == b
 	//
 	c := SemVer{}
-	assert !a.is_equal(c)
+	assert a != c
 }
 
 fn test_semver_str() {
@@ -125,6 +127,4 @@ fn test_from_string() {
 	println(d)
 	e := from_string('1.1.1-alpha+cf435a') or { return }
 	println(e)
-	//
-	assert false
 }

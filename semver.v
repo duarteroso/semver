@@ -65,7 +65,7 @@ pub fn from_string(version string) ?SemVer {
 }
 
 // Get string
-pub fn (sv &SemVer) str() string {
+pub fn (sv SemVer) str() string {
 	mut semver := sv.major.str()
 	semver += '.'
 	semver += sv.minor.str()
@@ -99,28 +99,28 @@ pub fn (sv &SemVer) str() string {
 	return semver
 }
 
-pub fn (sv &SemVer) is_greater(other SemVer) bool {
-	if sv.is_equal(other) {
+pub fn (left SemVer) < (right SemVer) bool {
+	if left == right {
 		return false
 	}
 	//
 	res := SemVer{
-		major: sv.major - other.major
-		minor: sv.minor - other.minor
-		patch: sv.patch - other.patch
+		major: right.major - left.major
+		minor: right.minor - left.minor
+		patch: right.patch - left.patch
 	}
 	return (res.major > 0) || (res.major == 0 && res.minor > 0)
-		|| (res.major == 0 && res.minor == 0 && res.patch > 0)
-		|| (res.major == 0 && res.minor == 0 && res.patch == 0 && int(sv.stage) > int(other.stage))
+		|| (res.major == 0 && res.minor == 0 && res.patch > 0) || (res.major == 0 && res.minor == 0
+		&& res.patch == 0 && int(right.stage) > int(left.stage))
 }
 
-pub fn (sv &SemVer) is_equal(other SemVer) bool {
-	return (sv.major == other.major) && (sv.minor == other.minor) && (sv.patch == other.patch)
-		&& (sv.stage == other.stage)
+pub fn (left SemVer) == (right SemVer) bool {
+	return (left.major == right.major) && (left.minor == right.minor) && (left.patch == right.patch)
+		&& (left.stage == right.stage)
 }
 
 // compare returns the relationship between the two versions
-pub fn (sv &SemVer) compare(other &SemVer) VersionTime {
+pub fn (sv SemVer) compare(other SemVer) VersionTime {
 	if sv.major < other.major {
 		return VersionTime.older
 	} else if sv.major > other.major {
